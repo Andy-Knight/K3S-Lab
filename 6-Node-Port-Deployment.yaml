@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-basic
+  namespace: nginx-lab
+  labels:
+    app: nginx-example
+  annotations:
+    bar: deployment-annotation
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      pod: nginx-pod
+  template:
+    metadata:
+      labels:
+        pod: nginx-pod
+      annotations:
+        bing: pod-annotation
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.26.0
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-nodeport
+spec:
+  type: NodePort
+  selector:
+    pod: nginx-pod
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
