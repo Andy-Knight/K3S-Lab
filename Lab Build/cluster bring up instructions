@@ -1,16 +1,17 @@
 1.  deploy Ubuntu
 2.  sudo passwd root
 3.  sudo apt update
-4.  cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1 --> /boot/firmware/cmdline.txt
-5.  usb_max_current_enable=1 --> /boot/firmware/config.txt
-6.  dtparam=pciex1 --> /boot/firmware/config.txt
-7.  dtoverlay=disable-wifi --> /boot/firmware/config.txt
-8.  net.ipv6.conf.all.disable_ipv6 = 1 --> /etc/sysctl.conf
+4.  sudo apt upgrade
+5.  cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1 --> /boot/firmware/cmdline.txt
+6.  usb_max_current_enable=1 --> /boot/firmware/config.txt
+7.  dtparam=pciex1 --> /boot/firmware/config.txt
+8.  dtoverlay=disable-wifi --> /boot/firmware/config.txt
+9.  net.ipv6.conf.all.disable_ipv6 = 1 --> /etc/sysctl.conf
     net.ipv6.conf.default.disable_ipv6 = 1
     net.ipv6.conf.lo.disable_ipv6 = 1
     net.ipv4.ip_forward = 1
 
-9.  static ip in /etc/netplan/50-cloud-init.yaml
+10. static ip in /etc/netplan/50-cloud-init.yaml
     network:
       version: 2
       ethernets:
@@ -22,11 +23,11 @@
           nameservers:
             addresses: [192.168.4.1]
 
-10. sudo apt install nfs-kernel-server git ntp
-11. sudo curl -sfL https://get.k3s.io | sh -s - --disable servicelb --prefer-bundled-bin
-12. kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.2/config/manifests/metallb-native.yaml
+11. sudo apt install nfs-kernel-server git ntp
+12. sudo curl -sfL https://get.k3s.io | sh -s - --disable servicelb --prefer-bundled-bin
+13. kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.2/config/manifests/metallb-native.yaml
 
-13. Use kubectl to apply the following:
+14. Use kubectl to apply the following:
   apiVersion: metallb.io/v1beta1
     kind: IPAddressPool
     metadata:
