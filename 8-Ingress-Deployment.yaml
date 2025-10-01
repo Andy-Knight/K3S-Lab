@@ -1,38 +1,60 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-basic
+  name: nginx-ingress
   namespace: nginx-lab
   labels:
-    app: nginx-example
+    app: nginx-ingress
   annotations:
     bar: deployment-annotation
 spec:
   replicas: 3
   selector:
     matchLabels:
-      pod: nginx-pod
+      pod: nginx-ingress-pod
   template:
     metadata:
       labels:
-        pod: nginx-pod
+        pod: nginx-ingress-pod
       annotations:
         bing: pod-annotation
     spec:
       containers:
         - name: nginx
           image: nginx:1.26.0
+          ports:
+            - containerPort: 80
+              protocol: TCP
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-basic
+  name: nginx-ingress-clusterip
   namespace: nginx-lab
 spec:
-  type: LoadBalancer
+  type: ClusterIP # This is the default value
   selector:
-    pod: nginx-pod
+    pod: nginx-ingress-pod
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
+    - protocol: TCP
+      port: 80 # Port the service is listening on
+      targetPort: 80 # Port the container is listening on (if unset, defaults to equal port value)
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  namespace: nginx-lab
+  annotations:
+    spec.ingressClassName: "traefik"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-ingress-clusterip
+            port:
+              number: 80
