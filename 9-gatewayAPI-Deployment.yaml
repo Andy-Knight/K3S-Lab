@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-ingress
+  namespace: nginx-lab
+  labels:
+    app: nginx-ingress
+  annotations:
+    bar: deployment-annotation
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      pod: nginx-ingress-pod
+  template:
+    metadata:
+      labels:
+        pod: nginx-ingress-pod
+      annotations:
+        bing: pod-annotation
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.26.0
+          ports:
+            - containerPort: 80
+              protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-ingress-clusterip
+  namespace: nginx-lab
+spec:
+  type: ClusterIP # This is the default value
+  selector:
+    pod: nginx-ingress-pod
+  ports:
+    - protocol: TCP
+      port: 80 # Port the service is listening on
+      targetPort: 80 # Port the container is listening on (if unset, defaults to equal port value)
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: nginx-gatewayapi
+  namespace: nginx-lab
+spec:
+  parentRefs:
+    - name: kong
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: nginx-ingress-clusterip
+          kind: Service
+          port: 80
