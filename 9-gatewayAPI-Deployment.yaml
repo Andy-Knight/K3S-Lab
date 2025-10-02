@@ -47,7 +47,8 @@ metadata:
   namespace: nginx-lab
 spec:
   parentRefs:
-    - name: kong
+    - name: traefik-gateway
+      namespace: kube-system
   rules:
     - matches:
         - path:

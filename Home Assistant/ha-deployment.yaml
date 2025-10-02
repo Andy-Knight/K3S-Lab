@@ -13,7 +13,6 @@ spec:
       labels:
         app: homeassistant-label
     spec:
-      hostNetwork: true
       containers:
       - name: default
         image: homeassistant/home-assistant:stable
