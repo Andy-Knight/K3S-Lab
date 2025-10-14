@@ -24,8 +24,11 @@
             addresses: [192.168.4.1]
 
 11. sudo apt install nfs-kernel-server git ntp
-12. for control node - sudo curl -sfL https://get.k3s.io | sh -s - --disable servicelb --prefer-bundled-bin
+12. for single control node - sudo curl -sfL https://get.k3s.io | sh -s - --disable servicelb --prefer-bundled-bin
     for worker node - sudo curl -sfL https://get.k3s.io | K3S_URL=https://192.168.4.146:6443 K3S_TOKEN=<insert token here> sh -s - --prefer-bundled-bin
-13. kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.2/config/manifests/metallb-native.yaml
 
-14. Use kubectl to apply metallb config (metallb-config.yaml):
+for clustered control node (Master) - sudo curl -sfL https://get.k3s.io | sh -s - server --cluster-init --tls-san=192.168.4.147 --disable servicelb --prefer-bundled-bin
+for clustered control node (Secondary) - sudo curl -sfL https://get.k3s.io | K3S_TOKEN=<INSERT_TOKEN_HERE> sh -s - server --server https://192.168.4.148:6443 --tls-san=192.168.4.147 --disable servicelb --prefer-bundled-bin
+
+13. kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.2/config/manifests/metallb-native.yaml
+14. Use kubectl to apply metallb config (metallb-config.yaml)
