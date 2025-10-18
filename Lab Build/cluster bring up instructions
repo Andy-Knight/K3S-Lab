@@ -32,3 +32,13 @@ for clustered control node (Secondary) - sudo curl -sfL https://get.k3s.io | K3S
 
 13. kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.2/config/manifests/metallb-native.yaml
 14. Use kubectl to apply metallb config (metallb-config.yaml)
+15. Setup local disks on worker nodes:
+      sudo fdisk /dev/nvme0n1
+      n
+      p
+      1
+      defaults start and end blocks
+      w
+      sudo mkfs.ext4 /dev/nvme0n1p1 (format disk partition as ext4)
+      sudo mkdir /mnt/nvme
+      edit /etc/fstab /dev/nvme0n1p1   /mnt/nvme   ext4   defaults   0   1
