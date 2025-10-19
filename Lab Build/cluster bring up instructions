@@ -43,3 +43,6 @@ for clustered control node (Secondary) - sudo curl -sfL https://get.k3s.io | K3S
       sudo mkfs.ext4 /dev/nvme0n1p1 (format disk partition as ext4)
       sudo mkdir /mnt/nvme
       edit /etc/fstab /dev/nvme0n1p1   /mnt/nvme   ext4   defaults   0   1
+
+16. install longhorn: kubectl apply -f https://raw.githubusercontent.com/longhorn/longhorn/v1.10.0/deploy/longhorn.yaml
+17. create ingress for longhorn-ui
