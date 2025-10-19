@@ -2,6 +2,7 @@
 2.  sudo passwd root
 3.  sudo apt update
 4.  sudo apt upgrade
+    sudo apt install nfs-common
 5.  cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1 --> /boot/firmware/cmdline.txt
 6.  usb_max_current_enable=1 --> /boot/firmware/config.txt
 7.  dtparam=pciex1 --> /boot/firmware/config.txt
