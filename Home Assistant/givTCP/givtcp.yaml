@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: givtcp
+  namespace: home-assistant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: givtcp
+  template:
+    metadata:
+      labels:
+        app: givtcp
+    spec:
+      containers:
+      - name: givtcp
+        image: "britkat/giv_tcp-ma:latest" # Or a specific version
+        volumeMounts:
+        - name: givtcp-pv-config
+          mountPath: /config/GivTCP
+      initContainers:
+      - name: install
+        image: busybox:latest
+        command: ["bin/sh", "-c", "cp /mnt/allsettings.json /mnt/pv && rmdir /mnt/pv/lost+found"]
+        volumeMounts:
+        - name: givtcp-config
+          mountPath: /mnt/allsettings.json
+          subPath: allsettings.json
+        - name: givtcp-pv-config
+          mountPath: /mnt/pv
+      volumes:
+        - name: givtcp-config
+          configMap:
+            name: givtcp-config
+        - name: givtcp-pv-config
+          persistentVolumeClaim:
+            claimName: givtcp-pv-config
