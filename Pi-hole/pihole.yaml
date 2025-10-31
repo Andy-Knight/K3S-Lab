@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pihole
+  namespace: pihole
+  labels:
+    app: pihole
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pihole
+  template:
+    metadata:
+      labels:
+        app: pihole
+    spec:
+      containers:
+      - image: pihole/pihole:latest
+        name: pihole
+        ports:
+          - containerPort: 53
+            name: dns
+          - containerPort: 80
+            name: http
+          - containerPort: 443
+            name: https
+        resources: {}
+        volumeMounts:
+          - name: pihole-persistent-storage
+            mountPath: /etc/pihole
+      volumes:
+        - name: pihole-persistent-storage
+          persistentVolumeClaim:
+            claimName: pihole-pv-claim
