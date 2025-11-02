@@ -8,7 +8,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: lockal-path
+  storageClassName: local-path
   resources:
     requests:
       storage: 5Gi
