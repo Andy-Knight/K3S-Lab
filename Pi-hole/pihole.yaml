@@ -21,14 +21,24 @@ spec:
         ports:
           - containerPort: 53
             name: dns
+            protocol: UDP
           - containerPort: 80
             name: http
           - containerPort: 443
             name: https
-        resources: {}
+        resources:
+          limits:
+            memory: "600Mi"
         volumeMounts:
           - name: pihole-persistent-storage
             mountPath: /etc/pihole
+        env:
+        - name: TZ
+          value: "Europe/London"
+        - name: FTLCONF_dns_listeningMode
+          value: "all"
+        - name: FTLCONF_webserver_api_password
+          value: "K3Spassword123!"
       volumes:
         - name: pihole-persistent-storage
           persistentVolumeClaim:
