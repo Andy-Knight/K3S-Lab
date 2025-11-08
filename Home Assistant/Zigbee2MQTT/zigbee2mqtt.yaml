@@ -19,4 +19,11 @@ spec:
         ports:
           - containerPort: 8080
         resources: {}
+        volumeMounts:
+          - name: zigbee2mqtt-persistent-storage
+            mountPath: /app/data
       restartPolicy: Always
+      volumes:
+        - name: zigbee2mqtt-persistent-storage
+          persistentVolumeClaim:
+            claimName: zigbee2mqtt-pv-claim
