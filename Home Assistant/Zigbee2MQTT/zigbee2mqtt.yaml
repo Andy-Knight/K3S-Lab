@@ -18,7 +18,11 @@ spec:
         image: koenkk/zigbee2mqtt:latest
         ports:
           - containerPort: 8080
-        resources: {}
+        resources:
+          limits:
+            memory: "600Mi"
+          requests:
+            memory: "600Mi"
         volumeMounts:
           - name: zigbee2mqtt-persistent-storage
             mountPath: /app/data
