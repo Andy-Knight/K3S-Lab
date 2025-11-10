@@ -26,6 +26,19 @@ spec:
         volumeMounts:
           - name: zigbee2mqtt-persistent-storage
             mountPath: /app/data
+        env:
+        - name: ZIGBEE2MQTT_CONFIG_MQTT_USER
+          value: "admin"
+        - name: ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD
+          value: "admin@123"
+        - name: ZIGBEE2MQTT_CONFIG_MQTT_SERVER
+          value: "mqtt://mosquitto.home-assistant.svc.cluster.local"
+        - name: ZIGBEE2MQTT_CONFIG_FRONTEND_ENABLED
+          value: "true"
+        - name: ZIGBEE2MQTT_CONFIG_FRONTEND_PORT
+          value: "8080"
+        - name: ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_ENABLED
+          value: "true"
       restartPolicy: Always
       volumes:
         - name: zigbee2mqtt-persistent-storage
