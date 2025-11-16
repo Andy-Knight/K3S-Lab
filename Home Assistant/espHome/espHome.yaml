@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: esphome
+  namespace: home-assistant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: esphome
+  template:
+    metadata:
+      labels:
+        app: esphome
+    spec:
+      hostNetwork: true
+      containers:
+      - name: esphome
+        image: esphome/esphome:latest
+        volumeMounts:
+        - name: esphome-pv-config
+          mountPath: /config
+        ports:
+          - containerPort: 6052
+        resources:
+          requests:
+            memory: "600Mi"
+      restartPolicy: Always
+      volumes:
+        - name: esphome-pv-config
+          persistentVolumeClaim:
+            claimName: esphome-pv-config

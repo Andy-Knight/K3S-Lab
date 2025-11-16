@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: esphome-frontend
+  namespace: home-assistant
+  labels:
+    app: esphome
+spec:
+  ports:
+    - port: 6052
+      name: web
+  selector:
+    app: esphome
+  type: LoadBalancer
