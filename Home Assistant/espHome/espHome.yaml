@@ -23,10 +23,6 @@ spec:
         ports:
           - containerPort: 6052
         resources:
-          requests:
-            memory: "800Mi"
-          limits:
-            memory: "800Mi"
       restartPolicy: Always
       volumes:
         - name: esphome-pv-config

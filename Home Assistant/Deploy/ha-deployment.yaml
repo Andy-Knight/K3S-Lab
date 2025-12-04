@@ -16,7 +16,7 @@ spec:
       hostNetwork: true
       containers:
       - name: default
-        image: homeassistant/home-assistant:stable
+        image: homeassistant/home-assistant:latest
         ports:
           - containerPort: 8123
         resources: {}
