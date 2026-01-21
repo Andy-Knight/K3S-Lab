@@ -1,3 +1,5 @@
+user account k3s password K3Spassword123!
+
 1.  deploy Ubuntu
 2.  sudo passwd root
 3.  sudo apt update
