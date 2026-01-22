@@ -1,4 +1,4 @@
-# This is to deploy givtcp from zero config net new install.
+# This is to redeploy givtcp with the existing dataset on th PV still in place.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -20,16 +20,6 @@ spec:
         volumeMounts:
         - name: givtcp-pv-config
           mountPath: /config/GivTCP
-      initContainers:
-      - name: install
-        image: busybox:latest
-        command: ["bin/sh", "-c", "cp /mnt/allsettings.json /mnt/pv && rmdir /mnt/pv/lost+found"]
-        volumeMounts:
-        - name: givtcp-config
-          mountPath: /mnt/allsettings.json
-          subPath: allsettings.json
-        - name: givtcp-pv-config
-          mountPath: /mnt/pv
       volumes:
         - name: givtcp-config
           configMap:
